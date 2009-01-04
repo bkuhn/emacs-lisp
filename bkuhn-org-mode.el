@@ -18,6 +18,9 @@
 ;    Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 ;                                    Boston, MA 02110-1301, USA.
 
+
+(require 'org-install)
+
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 
 ; bkuhn/most-recent-org-mode-file returns the most recently used org-mode
@@ -65,6 +68,12 @@ we're right on top of the main heading we want a subheading for"
 (if (looking-at "^\\* ") (forward-char))
 (org-insert-subheading arg))
 
+
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
+
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)

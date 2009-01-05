@@ -77,3 +77,5 @@ we're right on top of the main heading we want a subheading for"
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+(setq org-log-done 'time)
+(setq org-log-done 'note)

@@ -19,7 +19,7 @@
 ;                                    Boston, MA 02110-1301, USA.
 
 
-(load 'org-install)
+(require 'org-install)
 
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 

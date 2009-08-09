@@ -68,10 +68,15 @@ we're right on top of the main heading we want a subheading for"
 (if (looking-at "^\\* ") (forward-char))
 (org-insert-subheading arg))
 
+(defun bkuhn/org-todo-done-state ()
+  (interactive)
+  (org-todo 6))
 
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
+
+(org-defkey org-mode-map "\C-ct" 'bkuhn/org-todo-done-state)
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
@@ -81,3 +86,6 @@ we're right on top of the main heading we want a subheading for"
 (setq org-log-done 'note)
 (setq org-agenda-include-diary t)
 (setq org-fontify-done-headline t)
+(setq org-hide-leading-stars t)
+(setq org-todo-keywords
+       '((sequence "TODO(t)" "STARTED(s!)" "WAITING(w@/!)" "DELEGATED(l@/!)" "APPT(a)" "|" "DONE(d@/!)" "DEFERRED(f@/!)" "CANCELLED(c@/!)")))

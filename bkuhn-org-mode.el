@@ -20,6 +20,7 @@
 
 
 (require 'org-install)
+(load-library "org")
 
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 

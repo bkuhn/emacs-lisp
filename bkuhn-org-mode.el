@@ -21,6 +21,7 @@
 
 (require 'org-install)
 (load-library "org")
+(load-library "org-agenda")
 
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 

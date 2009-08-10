@@ -76,7 +76,7 @@ we're right on top of the main heading we want a subheading for"
 
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
 
-(org-defkey org-mode-map "\C-ct" 'bkuhn/org-todo-done-state)
+(org-defkey org-agenda-keymap "\C-ct" 'bkuhn/org-todo-done-state)
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)

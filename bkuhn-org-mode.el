@@ -111,10 +111,13 @@ we're right on top of the main heading we want a subheading for"
 (org-defkey org-mode-map (kbd "M-C-b") 'org-metaleft)
 (org-defkey org-mode-map (kbd "<C-return>") 'org-meta-return)
 (org-defkey org-mode-map (kbd "<M-return>") 'org-insert-heading-respect-content)
+
 (org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
 (org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?
 (org-defkey org-agenda-mode-map "D" 'org-agenda-deadline)  ; was org-agenda-toggle-diary
 (org-defkey org-agenda-keymap "D" 'org-agenda-deadline)
+(org-defkey org-agenda-mode-map (kbd "M-C-b") 'org-agenda-earlier)
+(org-defkey org-agenda-mode-map (kbd "M-C-f") 'org-agenda-later)
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)

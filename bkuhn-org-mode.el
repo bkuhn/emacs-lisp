@@ -74,11 +74,35 @@ we're right on top of the main heading we want a subheading for"
   (interactive)
   (org-todo 6))
 
+(defun bkuhn/dairy-style-sunrise-only ()
+  "Return Sunrise time only for org-mode-agenda in a diary-ish style"
+  (let ((l (solar-sunrise-sunset date)))
+    (format
+     "%s (%s hours of daylight)"
+     (if (car l)
+         (concat "Sunrise " (apply 'solar-time-string (car l)))
+       "No sunrise")
+     (nth 2 l))))
+(defun bkuhn/dairy-style-sunset-only ()
+  "Return Sunrise time only for org-mode-agenda in a diary-ish style"
+  (let ((l (solar-sunrise-sunset date)))
+    (format
+     "%s (%s hours of daylight)"
+     (if (cadr l)
+         (concat "Sunset " (apply 'solar-time-string (cadr l)))
+       "no sunset")
+     (nth 2 l))))
+
+
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
 
 (org-defkey org-agenda-keymap "\C-ct" 'bkuhn/org-todo-done-state)
+(org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
+(org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?
+(org-defkey org-agenda-mode-map "D" 'org-agenda-deadline)  ; was org-agenda-toggle-diary
+(org-defkey org-agenda-keymap "D" 'org-agenda-deadline)
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)

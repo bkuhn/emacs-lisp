@@ -107,6 +107,8 @@ we're right on top of the main heading we want a subheading for"
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(setq org-refile-targets '((nil . (:level . 2))))
+(setq org-yank-adjusted-subtrees t)
 (setq org-log-done t)
 (setq org-log-done 'time)
 (setq org-log-done 'note)
@@ -115,5 +117,5 @@ we're right on top of the main heading we want a subheading for"
 (setq org-use-fast-todo-selection t)
 (setq org-hide-leading-stars t)
 (setq org-todo-keywords
-       '((sequence "TODO(t@)" "STARTED(s@/!)" "WAITING(w@/!)" "DELEGATED(l@/!)" "APPT(a)" "|" "DONE(d@/!)" "DEFERRED(f@/!)" "CANCELLED(c@/!)")))
+       '((sequence "TODO(t@)" "STARTED(s@/!)" "WAITING(w@/!)" "DELEGATED(l@/!)" "APPT(a@/!)" "|" "DONE(d@/!)" "DEFERRED(f@/!)" "CANCELLED(c@/!)")))
 

@@ -119,3 +119,13 @@ we're right on top of the main heading we want a subheading for"
 (setq org-todo-keywords
        '((sequence "TODO(t@)" "STARTED(s@/!)" "WAITING(w@/!)" "DELEGATED(l@/!)" "APPT(a@/!)" "|" "DONE(d@/!)" "DEFERRED(f@/!)" "CANCELLED(c@/!)")))
 
+
+; New way to turn on appoitment notification.  This must happen *after* all
+; org-mode-y stuff is done.
+
+; This doesn't work.  I probably have to patch org-mode to fix this.
+
+(org-agenda-to-appt '((headline "APPT")))
+
+
+(appt-activate 1)

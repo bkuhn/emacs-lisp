@@ -112,7 +112,7 @@ we're right on top of the main heading we want a subheading for"
 (setq org-log-done t)
 (setq org-log-done 'time)
 (setq org-log-done 'note)
-(setq org-agenda-include-diary t)
+(setq org-agenda-include-diary t)   ; Note this can and may be overriden by custom agenda commands.
 (setq org-fontify-done-headline t)
 (setq org-use-fast-todo-selection t)
 (setq org-hide-leading-stars t)

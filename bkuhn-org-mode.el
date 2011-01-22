@@ -143,4 +143,5 @@ we're right on top of the main heading we want a subheading for"
 ; (org-agenda-to-appt '((headline "APPT")))
 
 
+(setq appt-display-format 'window)
 (appt-activate 1)

@@ -100,7 +100,7 @@ we're right on top of the main heading we want a subheading for"
 
 (org-defkey org-agenda-keymap "\C-ct" 'bkuhn/org-todo-done-state)
 (org-defkey org-mode-map (kbd "M-C-f") 'org-metaright)
-(org-defkey org-mode-map (kbd "M-C-f") 'org-metaleft)
+(org-defkey org-mode-map (kbd "M-C-b") 'org-metaleft)
 (org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
 (org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?
 (org-defkey org-agenda-mode-map "D" 'org-agenda-deadline)  ; was org-agenda-toggle-diary

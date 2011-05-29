@@ -93,6 +93,14 @@ we're right on top of the main heading we want a subheading for"
        "no sunset")
      (nth 2 l))))
 
+(defun bkuhn/skip-unless-appt-or-diary ()
+       "Skip trees that are not APPT"
+       (org-back-to-heading t)
+       (let ( (beg (point))
+               (end (progn (outline-next-heading) (1- (point)))))
+         (goto-char beg)
+         (if (re-search-forward "^\\**[ \t]*\\(%%(diary-\\|APPT\\)" end t)
+               nil end)))
 
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 

@@ -135,7 +135,7 @@ we're right on top of the main heading we want a subheading for"
 
 ; This doesn't work.  I probably have to patch org-mode to fix this.
 
-(org-agenda-to-appt '((headline "APPT")))
+; (org-agenda-to-appt '((headline "APPT")))
 
 
 (appt-activate 1)

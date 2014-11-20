@@ -102,6 +102,20 @@ we're right on top of the main heading we want a subheading for"
          (if (re-search-forward "^\\**[ \t]*\\(%%(diary-\\|APPT\\)" end t)
                nil end)))
 
+(defun bkuhn/org-find-conservancy-project-name ()
+  (save-excursion
+    (let ((buf (find-file-noselect org-conservancy-bookkeeping-file)))
+      (with-current-buffer buf
+        (let* ( (headings
+                (mapcar (lambda (a) (org-no-properties (car a))) (org-refile-get-targets)))
+               (m
+                (org-find-olp (list org-conservancy-bookkeeping-file (ido-completing-read "Category: " headings)))))
+          (org-capture-put-target-region-and-position)
+	  (widen)
+	  (goto-char m)
+          (forward-line)
+          (point-marker))))))
+
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)

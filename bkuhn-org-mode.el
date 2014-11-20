@@ -55,3 +55,12 @@
           (goto-char new-position)
           (if (or (outline-invisible-p) (org-invisible-p2))
               (org-show-context 'org-goto))))))
+
+(defun bkuhn/org-insert-subheading-at-top-always-hack (arg)
+"This hack is designed to force org-insert-subheading to always
+force a new subheading at the top immediately below the current
+item.  This is done by simply moving forward one character when
+we're right on top of the main heading we want a subheading for"
+(interactive "P")
+(if (looking-at "^\\* ") (forward-char))
+(org-insert-subheading arg))

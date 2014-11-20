@@ -37,15 +37,35 @@
           (car buffers))
         (t (bkuhn/most-recent-org-mode-file-helper (cdr buffers)))))
 
-(defun bkuhn/org-goto-from-anywhere ()
-  "Interactive function that prompts user for all targets in
-  `org-refile-targets' and goto that target, which will possibly
-  include a buffer switch to the appropriate buffer.  The default
-  org-mode file is considered the most recently visited buffer
-  currently with its current mode set to org-mode"
-  (interactive)
-  (let ( (org-goto-start-pos (point))
-         (new-position (progn (let*
+(defun bkuhn/org-goto-from-anywhere (arg)
+  "Interactive function that prompts user with a list of possible
+targets, and then switches buffers and moves the point directly
+to the chosen target.
+
+By default, the choices will be bound by the user's of
+`org-refile-targets'.
+
+The user may add a unversal argument, possibly with an integer,
+and that value will be used to set the number of levels deep of
+targets to be used in completion.
+
+The function can be called from any buffer (not necessarily one
+currently in org-mode), and the most recently visited buffer that
+currently has its mode set to org-mode will be considered the
+default buffer.
+
+`org-refile-get-location' is used to select the target, so user
+ configuration settings related to that should work here."
+  (interactive "P")
+  (let ((old-org-refile-targets org-refile-targets))
+    (progn
+      (let* ((org-refile-targets
+              (if (null arg) org-refile-targets
+                (if (listp arg)
+                    `((,(car (car org-refile-targets)) . (:level . ,(truncate (+ 1 (log (car arg) 4))))))
+                  `((,(car (car org-refile-targets)) . (:level . ,arg))))))
+             (org-goto-start-pos (point))
+             (new-position (progn (let*
                           ( (my-selection
                              (org-refile-get-location "Goto "
                                 (bkuhn/most-recent-org-mode-file) nil t))
@@ -54,12 +74,17 @@
                            (find-file my-file)
                            (org-refile-check-position my-selection)
                            my-pos))))
-    (if new-position
-        (progn
-	  (org-mark-ring-push org-goto-start-pos)
-          (goto-char new-position)
-          (if (or (outline-invisible-p) (org-invisible-p2))
-              (org-show-context 'org-goto))))))
+        (if new-position
+            (progn
+              (org-mark-ring-push org-goto-start-pos)
+              (goto-char new-position)
+              (if (or (outline-invisible-p) (org-invisible-p2))
+                  (org-show-context 'org-goto)))))
+
+        ; Finalize by cleaning up the org-refile-target-table.  It seems that
+        ; org-mode effectively caches this, and it has nothing to do with
+        ; org-refile-cach, so it must be cleared if we mess with org-refile-targets
+      (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil)))))
 
 (defun bkuhn/org-insert-subheading-at-top-always-hack (arg)
 "This hack is designed to force org-insert-subheading to always

@@ -196,7 +196,7 @@ we're right on top of the main heading we want a subheading for"
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
-(setq org-refile-targets '((nil . (:level . 1))))
+(setq org-refile-targets '((org-agenda-files . (:level . 1))))
 (setq org-yank-adjusted-subtrees t)
 (setq org-log-done t)
 (setq org-log-done 'time)

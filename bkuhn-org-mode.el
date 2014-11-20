@@ -83,7 +83,7 @@ default buffer.
 
         ; Finalize by cleaning up the org-refile-target-table.  It seems that
         ; org-mode effectively caches this, and it has nothing to do with
-        ; org-refile-cach, so it must be cleared if we mess with org-refile-targets
+        ; org-refile-cache, so it must be cleared if we mess with org-refile-targets
       (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil)))))
 
 (defun bkuhn/org-insert-subheading-at-top-always-hack (arg)

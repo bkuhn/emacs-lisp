@@ -25,6 +25,36 @@
 
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 
+(defun bkuhn/org-goto-from-anywhere (&optional arg)
+  "Interactive function that prompts user with a list of possible
+targets, and then switches buffers and moves the point directly
+to the chosen target.
+
+By default, the choices will be bound by the user's of
+`org-refile-targets'.
+
+The user may add a unversal argument, possibly with an integer,
+and that value will be used to set the number of levels deep of
+targets to be used in completion.
+
+The function can be called from any buffer (not necessarily one
+currently in org-mode).
+
+`org-refile' is used to select the target, so user configuration
+ settings related to that should work here."
+  (interactive "P")
+  (let ((old-org-refile-targets org-refile-targets))
+      (let ((org-refile-targets
+              (if (null arg) org-refile-targets
+                (if (listp arg)
+                    `((,(car (car org-refile-targets)) . (:level . ,(truncate (+ 1 (log (car arg) 4))))))
+                  `((,(car (car org-refile-targets)) . (:level . ,arg)))))))
+        (org-refile '(4) nil nil "Goto "))
+        ; Finalize by cleaning up the org-refile-target-table.  It seems that
+        ; org-mode effectively caches this, and it has nothing to do with
+        ; org-refile-cache, so it must be cleared if we mess with org-refile-targets
+      (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil))))
+
 ; bkuhn/most-recent-org-mode-file returns the most recently used org-mode
 ; buffer on the buffer-list.
 

@@ -31,3 +31,26 @@
           (car buffers))
         (t (bkuhn/most-recent-org-mode-file-helper (cdr buffers)))))
 
+(defun bkuhn/org-goto-from-anywhere ()
+  "Interactive function that prompts user for all targets in
+  `org-refile-targets' and goto that target, which will possibly
+  include a buffer switch to the appropriate buffer.  The default
+  org-mode file is considered the most recently visited buffer
+  currently with its current mode set to org-mode"
+  (interactive)
+  (let ( (org-goto-start-pos (point))
+         (new-position (progn (let*
+                          ( (my-selection
+                             (org-refile-get-location "Goto "
+                                (bkuhn/most-recent-org-mode-file) nil t))
+                             (my-pos (nth 3 my-selection))
+                             (my-file (nth 1 my-selection)))
+                           (find-file my-file)
+                           (org-refile-check-position my-selection)
+                           my-pos))))
+    (if new-position
+        (progn
+	  (org-mark-ring-push org-goto-start-pos)
+          (goto-char new-position)
+          (if (or (outline-invisible-p) (org-invisible-p2))
+              (org-show-context 'org-goto))))))

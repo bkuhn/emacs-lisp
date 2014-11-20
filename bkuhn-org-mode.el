@@ -116,14 +116,31 @@ default buffer.
         ; org-refile-cache, so it must be cleared if we mess with org-refile-targets
       (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil)))))
 
-(defun bkuhn/org-insert-subheading-at-top-always-hack (arg)
-"This hack is designed to force org-insert-subheading to always
-force a new subheading at the top immediately below the current
-item.  This is done by simply moving forward one character when
-we're right on top of the main heading we want a subheading for"
-(interactive "P")
-(if (looking-at "^\\* ") (forward-char))
-(org-insert-subheading arg))
+(defun bkuhn/org-insert-heading-above-current ()
+  "Insert new heading at current level above the current one"
+  (interactive)
+  (org-back-to-heading t)
+  (org-insert-heading nil))
+
+(defun bkuhn/org-insert-heading-below-current ()
+  "Insert new heading at current level above below current one"
+  (interactive)
+  (org-back-to-heading t)
+  (org-insert-heading '(16)))
+
+(defun bkuhn/org-insert-subheading-at-top ()
+  "Insert a new heading one level below current, after current subtree."
+  (interactive)
+  (org-back-to-heading t)
+  (outline-next-heading)
+  (org-insert-heading))
+
+(defun bkuhn/org-insert-subheading-at-bottom ()
+  "Insert a new heading one level below current, after current subtree."
+  (interactive)
+  (org-back-to-heading t)
+  (org-insert-heading-after-current)
+  (org-demote))
 
 (defun bkuhn/org-todo-done-state ()
   (interactive)
@@ -181,8 +198,11 @@ we're right on top of the main heading we want a subheading for"
 (org-defkey org-agenda-keymap "\C-ct" 'bkuhn/org-todo-done-state)
 (org-defkey org-mode-map (kbd "M-C-f") 'org-metaright)
 (org-defkey org-mode-map (kbd "M-C-b") 'org-metaleft)
-(org-defkey org-mode-map (kbd "<C-return>") 'org-meta-return)
-(org-defkey org-mode-map (kbd "<M-return>") 'bkuhn/org-insert-subheading-at-top-always-hack)
+; Note: S-return was bound to org-table-copy-down when I changed it, but I never used it.
+(org-defkey org-mode-map (kbd "<S-return>") 'bkuhn/org-insert-heading-above-current)
+(org-defkey org-mode-map (kbd "<C-return>") 'bkuhn/org-insert-heading-below-current)
+(org-defkey org-mode-map (kbd "<M-return>") 'bkuhn/org-insert-subheading-at-top)
+(org-defkey org-mode-map (kbd "<C-M-return>") 'bkuhn/org-insert-subheading-at-bottom)
 
 (org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
 (org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?

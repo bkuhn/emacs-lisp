@@ -152,7 +152,7 @@ we're right on top of the main heading we want a subheading for"
 (org-defkey org-mode-map (kbd "M-C-f") 'org-metaright)
 (org-defkey org-mode-map (kbd "M-C-b") 'org-metaleft)
 (org-defkey org-mode-map (kbd "<C-return>") 'org-meta-return)
-(org-defkey org-mode-map (kbd "<M-return>") 'org-insert-heading-respect-content)
+(org-defkey org-mode-map (kbd "<M-return>") 'bkuhn/org-insert-subheading-at-top-always-hack)
 
 (org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
 (org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?

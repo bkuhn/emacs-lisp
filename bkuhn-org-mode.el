@@ -118,7 +118,10 @@ we're right on top of the main heading we want a subheading for"
 
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
+(global-set-key "\C-cr" 'org-capture)
 (global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
 
 (org-defkey org-agenda-keymap "\C-ct" 'bkuhn/org-todo-done-state)
 (org-defkey org-mode-map (kbd "M-C-f") 'org-metaright)

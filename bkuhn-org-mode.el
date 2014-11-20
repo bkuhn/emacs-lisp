@@ -136,6 +136,8 @@ we're right on top of the main heading we want a subheading for"
 (org-defkey org-agenda-mode-map (kbd "M-C-b") 'org-agenda-earlier)
 (org-defkey org-agenda-mode-map (kbd "M-C-f") 'org-agenda-later)
 
+;********************* VARIABLE SETTINGS *****************
+
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)

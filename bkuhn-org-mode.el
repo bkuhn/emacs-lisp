@@ -204,6 +204,11 @@ default buffer.
 (org-defkey org-mode-map (kbd "<M-return>") 'bkuhn/org-insert-subheading-at-top)
 (org-defkey org-mode-map (kbd "<C-M-return>") 'bkuhn/org-insert-subheading-at-bottom)
 
+(org-defkey org-mode-map (kbd "M-n")    'outline-next-visible-heading)
+(org-defkey org-mode-map (kbd "M-p")    'outline-previous-visible-heading)
+(org-defkey org-mode-map (kbd "C-M-n")  'org-forward-heading-same-level)
+(org-defkey org-mode-map (kbd "C-M-p")  'org-backward-heading-same-level)
+
 (org-defkey org-agenda-mode-map "S" 'org-agenda-schedule) ; was org-agenda-sunrise-sunset
 (org-defkey org-agenda-keymap "S" 'org-agenda-schedule)   ;    ^ which maybe I want automatic?
 (org-defkey org-agenda-mode-map "D" 'org-agenda-deadline)  ; was org-agenda-toggle-diary

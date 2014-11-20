@@ -148,6 +148,7 @@ we're right on top of the main heading we want a subheading for"
 (setq org-fontify-done-headline t)
 (setq org-use-fast-todo-selection t)
 (setq org-hide-leading-stars t)
+(setq org-enforce-todo-dependencies t)
 (setq org-todo-keywords
        '((sequence "TODO(t@)" "STARTED(s@/!)" "WAITING(w@/!)" "DELEGATED(l@/!)" "APPT(a@/!)" "|" "DONE(d@/!)" "DEFERRED(f@/!)" "CANCELLED(c@/!)")))
 

@@ -18,6 +18,7 @@
 ;    Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 ;                                    Boston, MA 02110-1301, USA.
 
+;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 
 ; bkuhn/most-recent-org-mode-file returns the most recently used org-mode
 ; buffer on the buffer-list.

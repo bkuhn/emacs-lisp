@@ -67,7 +67,7 @@ currently in org-mode).
           (car buffers))
         (t (bkuhn/most-recent-org-mode-file-helper (cdr buffers)))))
 
-(defun bkuhn/org-goto-from-anywhere-force-default-buffer (arg)
+(defun bkuhn/org-goto-from-anywhere-force-default-buffer (&optional arg)
   "Interactive function that prompts user with a list of possible
 targets, and then switches buffers and moves the point directly
 to the chosen target.

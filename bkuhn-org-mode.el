@@ -64,3 +64,7 @@ we're right on top of the main heading we want a subheading for"
 (interactive "P")
 (if (looking-at "^\\* ") (forward-char))
 (org-insert-subheading arg))
+
+;********************* PERSONAL KEY CONFIGURATIONS *****************
+
+(global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)

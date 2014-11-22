@@ -191,7 +191,7 @@ default buffer.
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-cr" 'org-capture)
-(global-set-key "\C-co" 'bkuhn/org-mode-goto-from-anywhere)
+(global-set-key "\C-co" 'bkuhn/org-goto-from-anywhere)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 

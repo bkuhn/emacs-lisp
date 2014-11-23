@@ -202,20 +202,24 @@ the form:
 This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.org-capture-template.
 "
   (interactive)
-  (let ( (beg (region-beginning))
-         (end (region-end))
-         (start-date (format-time-string "%a %b %d %Y"))
-         (end-date (format-time-string "%a %b %d %Y"))
+  (let ( (beg (if (region-active-p) (region-beginning) (point-min)))
+         (end (if (region-active-p) (region-end) (point-max)))
+         (start-date (format-time-string "%b %d %Y"))
+         (end-date (format-time-string "%b %d %Y"))
          (start-time (format-time-string "%H:%M"))
          (end-time (format-time-string "%H:%M"))
          (date-format "<%Y-%m-%d %H:%M>")
-         (date-regexp "^\\s-*\\[\\([[:alpha:]]\\{3\\}\\s-*[[:alpha:]]\\{3\\}\\s-*[[:digit:]]\\{1,3\\}\s-*[[:digit:]]\\{1,4\\}\\s-*\\)\\]")
+         (date-regexp "^\\s-*\\[[[:alpha:]]\\{3\\}\\s-*\\([[:alpha:]]\\{3\\}\\s-*[[:digit:]]\\{1,3\\}\s-*[[:digit:]]\\{1,4\\}\\s-*\\)\\]")
          (time-regexp "\\[\\([[:digit:]]+\\s-*:\\s-*[[:digit:]]+\\)\\]$"))
     (save-excursion
       (goto-char beg)
       (re-search-forward "^[<\\*]" end t)
-      (if (re-search-backward date-regexp beg t)
-          (setq start-date (match-string 1)))
+      (if (re-search-backward date-regexp (point-min) t)
+          (setq start-date (match-string 1))
+        (progn
+          (goto-char beg)
+          (if (re-search-forward date-regexp end t)
+              (setq start-date (match-string 1)))))
       (goto-char beg)
       (if (re-search-forward time-regexp end t)
           (setq start-time (match-string 1)))
@@ -225,10 +229,17 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
       (goto-char end)
       (if (re-search-backward time-regexp beg t)
           (setq end-time (match-string 1)))
-      (concat "from "
-       (format-time-string date-format (apply 'encode-time (org-read-date-analyze (concat start-date " " start-time) nil nil)))
-       " to "
-       (format-time-string date-format (apply 'encode-time (org-read-date-analyze (concat end-date " " end-time) nil nil)))))))
+      (let* ((start-time-str (concat start-date " " start-time))
+             (end-time-str (concat end-date " " end-time))
+             (start-time-formatted
+              (format-time-string date-format
+                (apply 'encode-time (org-read-date-analyze start-time-str nil nil)))))
+        (if (equal start-time-str end-time-str)
+            (concat "at " start-time-formatted)
+          (concat "from " start-time-formatted
+                   " to "
+                   (format-time-string date-format
+                     (apply 'encode-time (org-read-date-analyze end-time-str nil nil)))))))))
 
 ;********************* ORG CAPTURE STUFF ***********************
 

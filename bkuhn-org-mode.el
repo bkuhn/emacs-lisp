@@ -252,7 +252,7 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
 
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
-(global-set-key "\C-cr" 'org-capture)
+(global-set-key (kbd "M-r") 'org-capture)
 (global-set-key "\C-co" 'bkuhn/org-goto-from-anywhere)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)

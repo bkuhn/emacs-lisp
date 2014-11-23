@@ -188,6 +188,47 @@ default buffer.
           (forward-line)
           (point-marker))))))
 
+
+(defun bkuhn/org-template-erc-determine-datetime-of-current-region ()
+"bkuhn/org-template-erc-determine-datetime-of-current-region
+expects the current region to be a highlighted porition of an ERC
+buffer (although the buffer need not be in ERC mode).  This
+function attempts to determine the correct date and times of the
+beginning and end of the chat conversation, to return a string of
+the form:
+ \"from <org-mode-formatted-start> to <org-mode-mode-formatted-end>\"
+
+This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.org-capture-template.
+"
+  (interactive)
+  (let ( (beg (region-beginning))
+         (end (region-end))
+         (start-date (format-time-string "%a %b %d %Y"))
+         (end-date (format-time-string "%a %b %d %Y"))
+         (start-time (format-time-string "%H:%M"))
+         (end-time (format-time-string "%H:%M"))
+         (date-format "<%Y-%m-%d %H:%M>")
+         (date-regexp "^\\s-*\\[\\([[:alpha:]]\\{3\\}\\s-*[[:alpha:]]\\{3\\}\\s-*[[:digit:]]\\{1,3\\}\s-*[[:digit:]]\\{1,4\\}\\s-*\\)\\]")
+         (time-regexp "\\[\\([[:digit:]]+\\s-*:\\s-*[[:digit:]]+\\)\\]$"))
+    (save-excursion
+      (goto-char beg)
+      (re-search-forward "^[<\\*]" end t)
+      (if (re-search-backward date-regexp beg t)
+          (setq start-date (match-string 1)))
+      (goto-char beg)
+      (if (re-search-forward time-regexp end t)
+          (setq start-time (match-string 1)))
+      (goto-char end)
+      (if (re-search-backward date-regexp beg t)
+          (setq end-date (match-string 1)))
+      (goto-char end)
+      (if (re-search-backward time-regexp beg t)
+          (setq end-time (match-string 1)))
+      (concat "from "
+       (format-time-string date-format (apply 'encode-time (org-read-date-analyze (concat start-date " " start-time) nil nil)))
+       " to "
+       (format-time-string date-format (apply 'encode-time (org-read-date-analyze (concat end-date " " end-time) nil nil)))))))
+
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key "\C-cr" 'org-capture)

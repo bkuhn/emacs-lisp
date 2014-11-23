@@ -190,8 +190,7 @@ default buffer.
           (forward-line)
           (point-marker))))))
 
-
-(defun bkuhn/org-template-erc-determine-datetime-of-current-region ()
+(defun bkuhn/org-capture-template-irc-log-determine-datetime-of-current-region ()
 "bkuhn/org-template-erc-determine-datetime-of-current-region
 expects the current region to be a highlighted porition of an ERC
 buffer (although the buffer need not be in ERC mode).  This

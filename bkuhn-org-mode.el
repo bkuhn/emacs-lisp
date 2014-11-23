@@ -202,24 +202,23 @@ the form:
 This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.org-capture-template.
 "
   (interactive)
-  (let ( (beg (if (region-active-p) (region-beginning) (point-min)))
+  (let ((buf (if (org-capture-get :original-buffer)
+                  (org-capture-get :original-buffer) (current-buffer))))
+  (with-current-buffer buf
+    (let ( (beg (if (region-active-p) (region-beginning) (point-min)))
          (end (if (region-active-p) (region-end) (point-max)))
          (start-date (format-time-string "%b %d %Y"))
          (end-date (format-time-string "%b %d %Y"))
-         (start-time (format-time-string "%H:%M"))
-         (end-time (format-time-string "%H:%M"))
+         (start-time "")
+         (end-time  "")
          (date-format "<%Y-%m-%d %H:%M>")
-         (date-regexp "^\\s-*\\[[[:alpha:]]\\{3\\}\\s-*\\([[:alpha:]]\\{3\\}\\s-*[[:digit:]]\\{1,3\\}\s-*[[:digit:]]\\{1,4\\}\\s-*\\)\\]")
+         (date-regexp "^\\s-*\\[[[:alpha:]]\\{3\\}\\s-*\\([[:alpha:]]\\{3\\}\\s-*[[:digit:]]\\{1,3\\}\s-*[[:digit:]]\\{1,4\\}\\)\\]")
          (time-regexp "\\[\\([[:digit:]]+\\s-*:\\s-*[[:digit:]]+\\)\\]$"))
     (save-excursion
       (goto-char beg)
-      (re-search-forward "^[<\\*]" end t)
+      (re-search-forward "^\\s-*<" end t)
       (if (re-search-backward date-regexp (point-min) t)
-          (setq start-date (match-string 1))
-        (progn
-          (goto-char beg)
-          (if (re-search-forward date-regexp end t)
-              (setq start-date (match-string 1)))))
+          (setq start-date (match-string 1)))
       (goto-char beg)
       (if (re-search-forward time-regexp end t)
           (setq start-time (match-string 1)))
@@ -239,7 +238,7 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
           (concat "from " start-time-formatted
                    " to "
                    (format-time-string date-format
-                     (apply 'encode-time (org-read-date-analyze end-time-str nil nil)))))))))
+                     (apply 'encode-time (org-read-date-analyze end-time-str nil nil)))))))))))
 
 ;********************* ORG CAPTURE STUFF ***********************
 

@@ -250,16 +250,18 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
   (concat (file-name-as-directory bkuhn/org-capture-template-dir)
           template-name ".org-capture-template"))
 
-(defun bkuhn/template-as-string-irc-log ()
-  (bkuhn/file-as-string (bkuhn/org-capture-template-file-format "erc-log")))
+(defun bkuhn/org-capture-irc-log-template ()
+  (list 'file (bkuhn/org-capture-template-file-format "erc-log")))
 
-(defun bkuhn/heading-as-string-journal-file-with-year-heading ()
-(concat (file-name-as-directory org-directory) "journal.org") (format-time-string "%Y Journal"))
+(defun bkuhn/org-capture-irc-log-default-target ()
+  (list 'file+headline
+        (concat (file-name-as-directory org-directory) "journal.org")
+        (format-time-string "%Y Journal")))
 
 (setq org-capture-templates
-        '(("i" "IRC log" entry (function tt)
-           (function bkuhn/template-as-string-irc-log) :prepend)))
-
+      (list (list "i" "IRC log" 'entry
+                  (bkuhn/org-capture-irc-log-default-target)
+                  (bkuhn/org-capture-irc-log-template) :prepend t)))
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key (kbd "M-r") 'org-capture)

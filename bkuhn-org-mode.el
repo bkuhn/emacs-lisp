@@ -290,10 +290,24 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
         (concat (file-name-as-directory org-directory) "journal.org")
         (format-time-string "%Y Journal")))
 
+(defun bkuhn/org-capture-unreceived-reimbursment-template ()
+  (list 'file (bkuhn/org-capture-template-file-format "unreceived-reimbursement")))
+
+(defun bkuhn/org-capture-unreceived-reimbursment-default-target ()
+  (let* ((bookkeeping-file
+         (concat (file-name-as-directory org-bookkeping-dir) "bookkeeping.org"))
+         (org-refile-targets
+          (list (cons bookkeeping-file  '(:level . 1)))))
+    (bkuhn/org-goto-from-anywhere)))
+
 (setq org-capture-templates
       (list (list "i" "IRC log" 'entry
                   (bkuhn/org-capture-irc-log-default-target)
-                  (bkuhn/org-capture-irc-log-template) :prepend t)))
+                  (bkuhn/org-capture-irc-log-template) :prepend t)
+            (list "R" "Unreceived reimbusement" 'entry
+                  '(function bkuhn/org-capture-unreceived-reimbursment-default-target)
+                  (bkuhn/org-capture-unreceived-reimbursment-template) :prepend t)
+            ))
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key (kbd "M-r") 'org-capture)

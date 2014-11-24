@@ -259,7 +259,8 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
          (bkuhn/org-capture-email . ((:prompt . "Email") (:register . ?e)))))
 
 (defun bkuhn/org-capture-vars-clear ()
-  (mapcar (lambda (v) (makunbound (car v))) bkuhn/org-capture-vars-alist))
+  (mapcar (lambda (v) (makunbound (car v))) bkuhn/org-capture-vars-alist)
+  nil)
 
 (defun bkuhn/org-capture-vars-expand (var)
   (if (boundp var)

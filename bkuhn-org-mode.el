@@ -128,7 +128,11 @@ default buffer.
   "Insert new heading at current level above below current one"
   (interactive)
   (org-back-to-heading t)
-  (org-insert-heading '(16)))
+  (org-insert-heading '(16))
+  (save-excursion
+    (org-back-to-heading t)
+    (org-reveal)
+    (org-cycle)))
 
 (defun bkuhn/org-insert-subheading-at-top ()
   "Insert a new heading one level below current, after current subtree."

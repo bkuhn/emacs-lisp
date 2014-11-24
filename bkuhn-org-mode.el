@@ -240,6 +240,39 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
                    (format-time-string date-format
                      (apply 'encode-time (org-read-date-analyze end-time-str nil nil)))))))))))
 
+(defun bkuhn/org-capture-prompt-default-from-register (prompt r &optional completions histvar)
+  (let ((default (if (null (get-register r)) "" (get-register r))))
+        (org-completing-read-no-i (concat prompt (if default (concat " [Default: " default "]") ""))
+                                  completions nil nil nil nil default)))
+
+;************** ORG CAPTURE  VAR SETUP *****************
+
+;This is designed as a method for various variables to be fed into an
+;  org-capture template that are not usable
+
+(setq bkuhn/org-capture-vars-alist
+      '((bkuhn/org-capture-event-name . ((:prompt . "Event Name") (:register . ?e)))
+         (bkuhn/org-capture-person-name-short . ((:prompt . "Short Name")))
+         (bkuhn/org-capture-amount . ((:prompt . "Amount") (:register . ?a)))
+         (bkuhn/org-capture-email . ((:prompt . "Email") (:register . ?e)))))
+
+(defun bkuhn/org-capture-vars-clear ()
+  (mapcar (lambda (v) (makunbound (car v))) bkuhn/org-capture-vars-alist))
+
+(defun bkuhn/org-capture-vars-expand (var)
+  (if (boundp var)
+    var
+    (let* ((prop-alist (cdr (assoc var bkuhn/org-capture-vars-alist)))
+           (reg (if (assoc :register prop-alist) (cdr (assoc :register prop-alist))))
+           (default (if (null (get-register reg)) "" (get-register reg)))
+           (prompt (concat (if (assoc :prompt prop-alist) (cdr (assoc :prompt prop-alist))
+                             (format "%s" var))
+                           (if (not (equal default ""))
+                               (concat " [Default: \"" default "\"]")) ": ")))
+           (set var (org-completing-read-no-i prompt
+                                              nil nil nil nil nil default))))
+  (symbol-value var))
+
 ;********************* ORG CAPTURE STUFF ***********************
 
 ; Note that these have to  be setup as functions in this rather odd way.

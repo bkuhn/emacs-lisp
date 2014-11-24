@@ -17,8 +17,6 @@
 ; with this program in a file called 'GPLv3'.  If not, write to the:
 ;    Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 ;                                    Boston, MA 02110-1301, USA.
-
-
 (require 'org-install)
 (require 'org-capture)
 

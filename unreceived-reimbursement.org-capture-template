@@ -1,9 +1,12 @@
-* WAITING %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): Expect reimbursement invoice
-   SCHEDULED: %^T DEADLINE: <2015-03-02 Mon 18:00>
-   - State "WAITING"    from ""           %U
-** WAITING %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): Expect project approval
-   SCHEDULED: %^T DEADLINE: <2015-03-02 Mon 18:00>
-   - State "WAITING"    from ""           %U
-** TODO %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): send funds and email
+* WAITING %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): Reimbursement
    DEADLINE: <2015-03-02 Mon 18:00>
-   - State "TODO"       from ""           %U%(bkuhn/org-capture-vars-clear)
+   - State "WAITING"    from ""           %U
+   :PROPERTIES:
+   :ORDERED:  t
+   :END:
+%?** WAITING %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): Expect project approval
+   SCHEDULED: %^T DEADLINE: <2015-03-02 Mon 18:00>
+   - State "WAITING"    from ""           %U
+** WAITING %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-event-name): %(bkuhn/org-capture-vars-expand 'bkuhn/org-capture-person-name-short): Expect reimbursement invoice.
+   SCHEDULED: %^T DEADLINE: <2015-03-02 Mon 18:00>
+   - State "WAITING"    from ""           %U%(bkuhn/org-capture-vars-clear)

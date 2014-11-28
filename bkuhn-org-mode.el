@@ -25,7 +25,7 @@
 
 ;********************* POSSIBLY REUSABLE FUNCTIONS *****************
 
-(defun bkuhn/org-goto-from-anywhere (&optional arg)
+(defun bkuhn/org-goto-from-anywhere-using-org-refile (&optional arg)
   "Interactive function that prompts user with a list of possible
 targets, and then switches buffers and moves the point directly
 to the chosen target.
@@ -41,7 +41,8 @@ The function can be called from any buffer (not necessarily one
 currently in org-mode).
 
 `org-refile' is used to select the target, so user configuration
- settings related to that should work here."
+ settings related to that should work here.  Additionally, there
+ may be some unexpected behavior from org-refile."
   (interactive "P")
   (let ((old-org-refile-targets org-refile-targets))
       (let ((org-refile-targets
@@ -67,7 +68,7 @@ currently in org-mode).
           (car buffers))
         (t (bkuhn/most-recent-org-mode-file-helper (cdr buffers)))))
 
-(defun bkuhn/org-goto-from-anywhere-force-default-buffer (&optional arg)
+(defun bkuhn/org-goto-from-anywhere (&optional arg)
   "Interactive function that prompts user with a list of possible
 targets, and then switches buffers and moves the point directly
 to the chosen target.

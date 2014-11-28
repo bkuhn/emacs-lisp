@@ -276,7 +276,9 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
     var
     (let* ((prop-alist (cdr (assoc var bkuhn/org-capture-vars-alist)))
            (reg (if (assoc :register prop-alist) (cdr (assoc :register prop-alist))))
-           (default (if (null (get-register reg)) "" (get-register reg)))
+           (default (if (null (get-register reg))
+                        (if (assoc :default prop-alist) (cdr (assoc :default prop-alist)) "")
+                      (get-register reg)))
            (prompt (concat (if (assoc :prompt prop-alist) (cdr (assoc :prompt prop-alist))
                              (format "%s" var))
                            (if (not (equal default ""))

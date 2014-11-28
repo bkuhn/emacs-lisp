@@ -256,8 +256,16 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
 (setq bkuhn/org-capture-vars-alist
       '((bkuhn/org-capture-event-name . ((:prompt . "Event Name") (:register . ?e)))
          (bkuhn/org-capture-person-name-short . ((:prompt . "Short Name")))
+         (bkuhn/org-capture-payment-method . ((:prompt . "Payment Method") (:default . "send")))
+         (bkuhn/org-capture-payment-details . ((:prompt . "Event Name") (:register . ?w)))
          (bkuhn/org-capture-amount . ((:prompt . "Amount") (:register . ?a)))
          (bkuhn/org-capture-email . ((:prompt . "Email") (:register . ?e)))))
+
+
+(defun bkuhn/org-capture-reimbursement-if-method-known ()
+  (if (and (boundp bkuhn/org-capture-payment-method)
+           (not (equal bkuhn/org-capture-payment-method "send")))
+      (concat "\\\\\n" (bkuhn/org-capture-vars-expand 'bkuhn/org-capture-payment-details))))
 
 (defun bkuhn/org-capture-vars-clear ()
   (mapcar (lambda (v) (makunbound (car v))) bkuhn/org-capture-vars-alist)

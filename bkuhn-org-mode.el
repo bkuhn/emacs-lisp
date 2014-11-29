@@ -332,6 +332,19 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
           (list (cons bookkeeping-file  '(:level . 1)))))
     (bkuhn/org-goto-from-anywhere)))
 
+(defun bkuhn/org-capture-default-target-file-level (default-file level)
+  (let* ((full-path-default-file
+         (concat (file-name-as-directory org-directory) default-file))
+         (org-refile-targets
+          (list (cons full-path-default-file  `(:maxlevel . ,level)))))
+    (bkuhn/org-goto-from-anywhere (get-file-buffer full-path-default-file))))
+
+(defun bkuhn/org-capture-personal-2-deep-default-target ()
+    (bkuhn/org-capture-default-target-file-level "personal.org" 2))
+
+(defun bkuhn/org-just-notes-template ()
+  (list 'file (bkuhn/org-capture-template-file-format "just-notes")))
+
 (setq org-capture-templates
       (list (list "i" "IRC log" 'entry
                   (bkuhn/org-capture-irc-log-default-target)
@@ -339,6 +352,9 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
             (list "R" "Unreceived reimbusement" 'entry
                   '(function bkuhn/org-capture-unreceived-reimbursment-default-target)
                   (bkuhn/org-capture-unreceived-reimbursment-template) :prepend t)
+            (list "\C-m" "Simple Default Template" 'entry
+                  '(function bkuhn/org-capture-personal-2-deep-default-target)
+                  (bkuhn/org-just-notes-template) :prepend t)
             ))
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 

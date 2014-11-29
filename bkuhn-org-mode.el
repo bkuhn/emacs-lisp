@@ -68,7 +68,7 @@ currently in org-mode).
           (car buffers))
         (t (bkuhn/most-recent-org-mode-file-helper (cdr buffers)))))
 
-(defun bkuhn/org-goto-from-anywhere (&optional arg)
+(defun bkuhn/org-goto-from-anywhere-selecting-level (&optional arg)
   "Interactive function that prompts user with a list of possible
 targets, and then switches buffers and moves the point directly
 to the chosen target.
@@ -91,31 +91,49 @@ default buffer.
   (let ((old-org-refile-targets org-refile-targets))
     (progn
       (let* ((org-refile-targets
-              (if (null arg) org-refile-targets
-                (if (listp arg)
-                    `((,(car (car org-refile-targets)) . (:level . ,(truncate (+ 1 (log (car arg) 4))))))
-                  `((,(car (car org-refile-targets)) . (:level . ,arg))))))
-             (org-goto-start-pos (point))
-             (new-position (progn (let*
+             (if (null arg) org-refile-targets
+               (if (listp arg)
+                   `((,(car (car org-refile-targets)) . (:level . ,(truncate (+ 1 (log (car arg) 4))))))
+                 `((,(car (car org-refile-targets)) . (:level . ,arg)))))))
+        (bkuhn/org-goto-from-anywhere (bkuhn/most-recent-org-mode-file))
+        ; Finalize by cleaning up the org-refile-target-table.  It seems that
+        ; org-mode effectively caches this, and it has nothing to do with
+        ; org-refile-cache, so it must be cleared if we mess with org-refile-targets
+      (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil))))))
+
+(defun bkuhn/org-goto-from-anywhere (&optional default-buffer)
+  "Interactive function that prompts user with a list of possible
+org node targets, and then switches buffers and moves the point
+directly to the chosen target.
+
+Takes one optional argument which is the default org-mode buffer
+to give to `org-refile-get-location' (which is ultimately used by
+this fuction to select the target) will be given.  Other settings
+that impact `org-refile-get-location' will of course apply to
+this function as well.
+
+For example, the choices will be bound by the user's of
+`org-refile-targets'.  Callers should dynamically bind
+`org-refile-targets' to another setting to select different
+choices.
+"
+  (interactive "b")
+  (let ((org-goto-start-pos (point))
+        (new-position (progn (let*
                           ( (my-selection
                              (org-refile-get-location "Goto "
-                                (bkuhn/most-recent-org-mode-file) nil t))
+                                default-buffer nil t))
                              (my-pos (nth 3 my-selection))
                              (my-file (nth 1 my-selection)))
                            (find-file my-file)
                            (org-refile-check-position my-selection)
                            my-pos))))
-        (if new-position
-            (progn
-              (org-mark-ring-push org-goto-start-pos)
-              (goto-char new-position)
-              (if (or (outline-invisible-p) (org-invisible-p2))
-                  (org-show-context 'org-goto)))))
-
-        ; Finalize by cleaning up the org-refile-target-table.  It seems that
-        ; org-mode effectively caches this, and it has nothing to do with
-        ; org-refile-cache, so it must be cleared if we mess with org-refile-targets
-      (if (not (eq old-org-refile-targets org-refile-targets)) (setq org-refile-target-table nil)))))
+    (if new-position
+        (progn
+          (org-mark-ring-push org-goto-start-pos)
+          (goto-char new-position)
+          (if (or (outline-invisible-p) (org-invisible-p2))
+              (org-show-context 'org-goto))))))
 
 (defun bkuhn/org-insert-heading-above-current ()
   "Insert new heading at current level above the current one"
@@ -325,7 +343,7 @@ This is used as an %(sexp ) call in bkuhn's org-capture template called erg-log.
 ;********************* PERSONAL KEY CONFIGURATIONS *****************
 
 (global-set-key (kbd "M-r") 'org-capture)
-(global-set-key "\C-co" 'bkuhn/org-goto-from-anywhere)
+(global-set-key "\C-co" 'bkuhn/org-goto-from-anywhere-selecting-level)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
